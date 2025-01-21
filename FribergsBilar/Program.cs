@@ -1,4 +1,7 @@
 using FribergsBilar.Data;
+using FribergsBilar.Repositories;
+using FribergsBilar.Services;
+using FribergsBilar.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace FribergsBilar
@@ -14,6 +17,8 @@ namespace FribergsBilar
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(conString));
+            builder.Services.AddScoped<IUser, UserRepository>();
+            builder.Services.AddScoped<IAuthService,AuthService>();
 
             var app = builder.Build();
 
