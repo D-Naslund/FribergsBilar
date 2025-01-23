@@ -7,9 +7,8 @@ namespace FribergsBilar.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IAuthService authService;
-
-        public UserController(IAuthService authService)
+        private readonly IUserService authService;
+        public UserController(IUserService authService)
         {
             this.authService = authService;
         }
@@ -44,10 +43,47 @@ namespace FribergsBilar.Controllers
                     var result = await authService.LoginAsync(user.Email, user.Password);
                     if(result == true)
                     {
-                        return RedirectToAction("Index", "Home");
+                        Response.Cookies.Append("loggedIn", user.Email);
+                        return RedirectToAction("Privacy", "Home");
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            try
+            {
+                Response.Cookies.Delete("loggedIn");
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(User user)
+        {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    authService.CreateUser(user);
+                    return RedirectToAction("Login", "User");
+                    
+                }
+                else
+                {
+                    return RedirectToAction("Login", "User");
+                }
             }
             catch
             {

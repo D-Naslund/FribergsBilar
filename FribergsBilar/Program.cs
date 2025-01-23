@@ -18,7 +18,15 @@ namespace FribergsBilar
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(conString));
             builder.Services.AddScoped<IUser, UserRepository>();
-            builder.Services.AddScoped<IAuthService,AuthService>();
+            builder.Services.AddScoped<IUserService,UserService>();
+
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10); 
+                options.Cookie.HttpOnly = true; 
+                options.Cookie.IsEssential = true; 
+            });
 
             var app = builder.Build();
 
@@ -34,6 +42,8 @@ namespace FribergsBilar
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 
