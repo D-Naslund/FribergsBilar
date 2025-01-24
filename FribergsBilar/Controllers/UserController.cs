@@ -1,6 +1,6 @@
 ﻿using FribergsBilar.Models;
 using FribergsBilar.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+using FribergsBilar.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FribergsBilar.Controllers
@@ -34,16 +34,17 @@ namespace FribergsBilar.Controllers
         // POST: UserController/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(User user)
+        public async Task<ActionResult> Login(LoginViewModel LoginVM )
         {
             try
             {
-                if(ModelState.IsValid)
+                ModelState.Remove("RegisterUser");
+                if (ModelState.IsValid)
                 {
-                    var result = await authService.LoginAsync(user.Email, user.Password);
+                    var result = await authService.LoginAsync(LoginVM.User.Email, LoginVM.User.Password);
                     if(result == true)
                     {
-                        Response.Cookies.Append("loggedIn", user.Email);
+                        Response.Cookies.Append("loggedIn", LoginVM.User.Email);
                         return RedirectToAction("Privacy", "Home");
                     }
                 }
@@ -70,13 +71,14 @@ namespace FribergsBilar.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(User user)
+        public ActionResult Register(LoginViewModel LoginVM)
         {
             try
             {
-                if(ModelState.IsValid)
+                ModelState.Remove("User");
+                if (ModelState.IsValid)
                 {
-                    authService.CreateUser(user);
+                    authService.CreateUser(LoginVM.RegisterUser);
                     return RedirectToAction("Login", "User");
                     
                 }

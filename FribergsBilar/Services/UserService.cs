@@ -15,10 +15,13 @@ namespace FribergsBilar.Services
             this.userRepository = userRepository;
         }
 
-        public void CreateUser(User user)
+        public void CreateUser(RegisterUser registerUser)
         {
-            if(user != null)
+            if(registerUser != null)
             {
+                User user = new User();
+                user.Email = registerUser.Email;
+                user.Password = registerUser.Password;
                 userRepository.Add(user);
             }
         }

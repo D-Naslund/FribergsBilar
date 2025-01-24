@@ -6,6 +6,6 @@ namespace FribergsBilar.Services.Interfaces
     {
         Task<bool> LoginAsync(string email, string password);
 
-        void CreateUser(User user);
+        void CreateUser(RegisterUser registerUser);
     }
 }

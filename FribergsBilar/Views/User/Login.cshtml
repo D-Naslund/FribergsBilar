@@ -1,4 +1,4 @@
-﻿@model FribergsBilar.Models.User
+﻿@model FribergsBilar.ViewModels.LoginViewModel
 
 @{
     ViewData["Title"] = "Login";
@@ -12,15 +12,16 @@
             <div class="container">
                 <form asp-action="Login">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="RegisterUser"/>
                     <div class="form-group">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <label asp-for="User.Email" class="control-label"></label>
+                        <input asp-for="User.Email" class="form-control" />
+                        <span asp-validation-for="User.Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <label asp-for="User.Password" class="control-label"></label>
+                        <input asp-for="User.Password" class="form-control" />
+                        <span asp-validation-for="User.Password" class="text-danger"></span>
                     </div>
                     <br />
                     <div class="form-group">
@@ -35,14 +36,14 @@
                 <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <label asp-for="RegisterUser.Email" class="control-label"></label>
+                        <input asp-for="RegisterUser.Email" class="form-control" />
+                        <span asp-validation-for="RegisterUser.Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <label asp-for="RegisterUser.Password" class="control-label"></label>
+                        <input asp-for="RegisterUser.Password" class="form-control" />
+                        <span asp-validation-for="RegisterUser.Password" class="text-danger"></span>
                     </div>
                     <br />
                     <div class="form-group">
