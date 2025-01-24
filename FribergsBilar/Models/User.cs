@@ -10,5 +10,6 @@ namespace FribergsBilar.Models
         public string Email { get; set; } = "";
         [Required(ErrorMessage = "The password is required")]
         public string Password { get; set; } = "";
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

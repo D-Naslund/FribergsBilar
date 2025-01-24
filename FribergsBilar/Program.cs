@@ -1,5 +1,5 @@
 using FribergsBilar.Data;
-using FribergsBilar.Repositories;
+using FribergsBilar.Data.Repositories;
 using FribergsBilar.Services;
 using FribergsBilar.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;

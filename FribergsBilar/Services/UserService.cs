@@ -1,6 +1,6 @@
 ﻿using FribergsBilar.Data;
 using FribergsBilar.Models;
-using FribergsBilar.Repositories;
+using FribergsBilar.Data.Repositories;
 using Microsoft.AspNetCore.Http;
 using FribergsBilar.Services.Interfaces;
 
