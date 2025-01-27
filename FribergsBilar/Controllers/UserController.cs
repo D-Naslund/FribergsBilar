@@ -7,10 +7,10 @@ namespace FribergsBilar.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IUserService authService;
-        public UserController(IUserService authService)
+        private readonly IUserService userService;
+        public UserController(IUserService userService)
         {
-            this.authService = authService;
+            this.userService = userService;
         }
 
         // GET: UserController
@@ -41,7 +41,7 @@ namespace FribergsBilar.Controllers
                 ModelState.Remove("RegisterUser");
                 if (ModelState.IsValid)
                 {
-                    var result = await authService.LoginAsync(LoginVM.User.Email, LoginVM.User.Password);
+                    var result = await userService.LoginAsync(LoginVM.User.Email, LoginVM.User.Password);
                     if(result == true)
                     {
                         Response.Cookies.Append("loggedIn", LoginVM.User.Email);
@@ -78,7 +78,7 @@ namespace FribergsBilar.Controllers
                 ModelState.Remove("User");
                 if (ModelState.IsValid)
                 {
-                    authService.CreateUser(LoginVM.RegisterUser);
+                    userService.CreateUser(LoginVM.RegisterUser);
                     return RedirectToAction("Login", "User");
                     
                 }

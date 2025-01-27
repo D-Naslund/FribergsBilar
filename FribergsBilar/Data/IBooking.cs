@@ -6,5 +6,8 @@ namespace FribergsBilar.Data
     {
         Booking GetById(int id);
         IEnumerable<Booking> GetAll();
+
+        void Add(Booking booking);
+        void Delete(Booking booking);
     }
 }

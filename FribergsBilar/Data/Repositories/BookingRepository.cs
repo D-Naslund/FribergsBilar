@@ -11,14 +11,28 @@ namespace FribergsBilar.Data.Repositories
         {
             this.applicationDBContext = applicationDBContext;
         }
+
+        public async void Add(Booking booking)
+        {
+            await applicationDBContext.Bookings.AddAsync(booking);
+            applicationDBContext.SaveChanges();
+        }
+
+        public void Delete(Booking booking)
+        {
+            applicationDBContext.Remove(booking);
+            applicationDBContext.SaveChanges();
+
+        }
+
         public IEnumerable<Booking> GetAll()
         {
-            throw new NotImplementedException();
+            return applicationDBContext.Bookings.OrderBy(b => b.BookingId);
         }
 
         public Booking GetById(int id)
         {
-            throw new NotImplementedException();
+            return applicationDBContext.Bookings.SingleOrDefault(b => b.BookingId == id);
         }
     }
 }

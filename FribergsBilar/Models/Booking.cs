@@ -1,10 +1,15 @@
-﻿namespace FribergsBilar.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FribergsBilar.Models
 {
     public class Booking
     {
-        public int Id { get; set; }
-        public Car car { get; set; }
+        [Key]
+        public int BookingId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+
+        public Car Car { get; set; }
+        public User User { get; set; }
     }
 }
