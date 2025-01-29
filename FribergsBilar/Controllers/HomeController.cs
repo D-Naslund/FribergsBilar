@@ -14,17 +14,14 @@ namespace FribergsBilar.Controllers
         }
 
         public IActionResult Index()
-        {       
+        {
+            ViewData["loggedIn"] = HttpContext.Session.GetString("CurrentEmail");
             return View();
         }
 
         public IActionResult Privacy()
         {
-            var loggedinString = Request.Cookies["loggedIn"];
-            if (loggedinString != null)
-            {
-                ViewBag.loggedin = loggedinString;
-            }
+            ViewData["loggedIn"] = HttpContext.Session.GetString("CurrentEmail");
             return View();
         }
 

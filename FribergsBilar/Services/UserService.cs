@@ -3,16 +3,22 @@ using FribergsBilar.Models;
 using FribergsBilar.Data.Repositories;
 using Microsoft.AspNetCore.Http;
 using FribergsBilar.Services.Interfaces;
+using Azure;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace FribergsBilar.Services
 {
     public class UserService : IUserService
     {
         private readonly IUser userRepository;
+        private readonly IBooking bookingRepository;
 
-        public UserService(IUser userRepository)
+        private User CurrentUser { get; set; }
+
+        public UserService(IUser userRepository, IBooking bookingRepository)
         {
             this.userRepository = userRepository;
+            this.bookingRepository = bookingRepository;
         }
 
         public void CreateUser(RegisterUser registerUser)
@@ -26,21 +32,19 @@ namespace FribergsBilar.Services
             }
         }
 
-        public async Task<bool> LoginAsync(string email, string password)
+        public async Task<User> LoginAsync(User user)
         {
-            var user = await userRepository.GetUserAsync(email,password);
-            if (user == null)
+            var tempUser = await userRepository.GetUserAsync(user);
+            if(user != null && tempUser.Password == user.Password)
             {
-                return false;
+                return tempUser;
             }
+            return null;
+        }
 
-            var passwordValid = user.Password == password;
-            if(!passwordValid)
-            {
-                return false;
-            }
-           
-            return true;
+        public IEnumerable<Booking> GetSpecificUserBookings(int id)
+        {
+            return bookingRepository.GetUserBookings(id);
         }
     }
 }

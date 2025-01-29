@@ -14,9 +14,15 @@ namespace FribergsBilar.Controllers
         }
 
         // GET: UserController
-        public ActionResult Index()
+        public ActionResult Profile()
         {
-            return RedirectToAction("Index","Home");
+            if(HttpContext.Session.GetInt32("CurrentId") != null)
+            {
+                int currentUser = (int)HttpContext.Session.GetInt32("CurrentId");
+                var user = userService.GetSpecificUserBookings(currentUser);
+                return View(user);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: UserController/Details/5
@@ -28,24 +34,27 @@ namespace FribergsBilar.Controllers
         // GET: UserController/Login
         public ActionResult Login()
         {
+
             return View();
         }
 
         // POST: UserController/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel LoginVM )
+        public async Task<ActionResult> Login(LoginViewModel loginVM )
         {
             try
             {
                 ModelState.Remove("RegisterUser");
                 if (ModelState.IsValid)
                 {
-                    var result = await userService.LoginAsync(LoginVM.User.Email, LoginVM.User.Password);
-                    if(result == true)
+                    var user = await userService.LoginAsync(loginVM.User);
+                    if(user != null)
                     {
-                        Response.Cookies.Append("loggedIn", LoginVM.User.Email);
-                        return RedirectToAction("Privacy", "Home");
+                        HttpContext.Session.SetString("CurrentEmail", user.Email);
+                        HttpContext.Session.SetInt32("CurrentId", user.UserId);
+
+                        return RedirectToAction("Profile", "User");
                     }
                 }
                 return View();

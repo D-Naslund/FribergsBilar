@@ -19,7 +19,7 @@ namespace FribergsBilar.Data.Repositories
         }
 
         public void Delete(Booking booking)
-        {
+        { 
             applicationDBContext.Remove(booking);
             applicationDBContext.SaveChanges();
 
@@ -33,6 +33,11 @@ namespace FribergsBilar.Data.Repositories
         public Booking GetById(int id)
         {
             return applicationDBContext.Bookings.SingleOrDefault(b => b.BookingId == id);
+        }
+
+        public IEnumerable<Booking> GetUserBookings(int id)
+        {
+            return applicationDBContext.Bookings.Where(u => u.User.UserId == id);
         }
     }
 }

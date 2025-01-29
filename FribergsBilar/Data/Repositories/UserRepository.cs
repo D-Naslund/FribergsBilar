@@ -33,9 +33,14 @@ namespace FribergsBilar.Data.Repositories
             applicationDBContext.SaveChanges();
         }
 
-        public async Task<User> GetUserAsync(string email, string password)
+        public async Task<User> GetUserAsync(User user)
         {
-            return await applicationDBContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await applicationDBContext.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return applicationDBContext.Users.OrderBy(u => u.UserId); 
         }
     }
 }

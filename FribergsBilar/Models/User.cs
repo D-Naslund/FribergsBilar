@@ -15,7 +15,6 @@ namespace FribergsBilar.Models
         [Required(ErrorMessage = "The password is required")]
         //[PasswordPropertyText]
         public string Password { get; set; } = "";
-        public virtual ICollection<Booking>? Bookings { get; set; }
-        public virtual ICollection<Booking>? PreviousBookings { get; set; }
+        public virtual ICollection<Booking>? Bookings { get; set; } = new List<Booking>();
     }
 }

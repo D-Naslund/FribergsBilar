@@ -5,5 +5,7 @@ namespace FribergsBilar.Services.Interfaces
     public interface IBookingService
     {
         public void StartBooking(Car Car);
+
+        public IEnumerable<Booking> GetBookingList();
     }
 }
