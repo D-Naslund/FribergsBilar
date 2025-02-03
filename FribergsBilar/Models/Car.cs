@@ -11,6 +11,7 @@ namespace FribergsBilar.Models
         public int Seats { get; set; }
         public int Price { get; set; }
         public string ImageUrl { get; set; } = "";
+        public bool IsActive { get; set; } = true;
 
     }
 }

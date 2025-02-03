@@ -10,6 +10,13 @@ namespace FribergsBilar.Data.Repositories
         {
             this.applicationDBContext = applicationDBContext;
         }
+
+        public void Delete(Car car)
+        {
+            applicationDBContext.Remove(car);
+            applicationDBContext.SaveChanges();
+        }
+
         public IEnumerable<Car> GetAll()
         {
             return applicationDBContext.Cars.OrderBy(c => c.CarId);

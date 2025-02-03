@@ -6,5 +6,7 @@ namespace FribergsBilar.Data
     {
         Car GetById(int id);
         IEnumerable<Car> GetAll();
+
+        void Delete(Car car);
     }
 }

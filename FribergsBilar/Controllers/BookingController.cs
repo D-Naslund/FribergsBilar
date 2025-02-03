@@ -72,17 +72,18 @@ namespace FribergsBilar.Controllers
         // GET: BookingController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return View(bookingService.GetCarById(id));
         }
 
         // POST: BookingController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(Car car)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                bookingService.DeleteCar(car);
+                return RedirectToAction("Cars");
             }
             catch
             {

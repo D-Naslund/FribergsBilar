@@ -28,7 +28,7 @@ namespace FribergsBilar.Services
            var currentCar = GetCarById(carId);
            var currentUser = userService.GetUser(userId);
            Booking newBooking = new Booking(currentCar.Name, startDate,endDate,currentCar,currentUser);
-           //bookingRepository.Add(newBooking);
+           bookingRepository.Add(newBooking);
             return newBooking;
         }
 
@@ -45,6 +45,11 @@ namespace FribergsBilar.Services
         public Booking ConfirmationBooking(int id)
         {
             return bookingRepository.GetById(id);
+        }
+
+        public void DeleteCar(Car car)
+        {
+            carRepository.Delete(car);
         }
     }
 }

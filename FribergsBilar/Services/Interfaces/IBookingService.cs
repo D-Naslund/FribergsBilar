@@ -10,6 +10,8 @@ namespace FribergsBilar.Services.Interfaces
         public IEnumerable<Booking> GetBookingList();
         public IEnumerable<Car> GetCarList();
 
+        void DeleteCar(Car car);
+
         public Car GetCarById(int CarId);
     }
 }
