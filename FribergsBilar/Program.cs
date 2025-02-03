@@ -1,5 +1,5 @@
 using FribergsBilar.Data;
-using FribergsBilar.Repositories;
+using FribergsBilar.Data.Repositories;
 using FribergsBilar.Services;
 using FribergsBilar.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +17,17 @@ namespace FribergsBilar
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(conString));
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<IUser, UserRepository>();
             builder.Services.AddScoped<IUserService,UserService>();
+            builder.Services.AddScoped<IBooking, BookingRepository>();
+            builder.Services.AddScoped<IBookingService,BookingService>();
+            builder.Services.AddScoped<ICar, CarRepository>();
 
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(10); 
+                options.IdleTimeout = TimeSpan.FromHours(1); 
                 options.Cookie.HttpOnly = true; 
                 options.Cookie.IsEssential = true; 
             });

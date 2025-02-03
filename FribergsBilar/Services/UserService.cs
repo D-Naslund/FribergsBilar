@@ -1,46 +1,67 @@
 ﻿using FribergsBilar.Data;
 using FribergsBilar.Models;
-using FribergsBilar.Repositories;
+using FribergsBilar.Data.Repositories;
 using Microsoft.AspNetCore.Http;
 using FribergsBilar.Services.Interfaces;
+using Azure;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace FribergsBilar.Services
 {
     public class UserService : IUserService
     {
         private readonly IUser userRepository;
+        private readonly IBooking bookingRepository;
 
-        public UserService(IUser userRepository)
+        public UserService(IUser userRepository, IBooking bookingRepository)
         {
             this.userRepository = userRepository;
+            this.bookingRepository = bookingRepository;
         }
 
-        public void CreateUser(RegisterUser registerUser)
+        public bool CreateUser(RegisterUser registerUser)
         {
-            if(registerUser != null)
+            var doesUserExist = userRepository.GetUserByEmail(registerUser.Email);
+            if(registerUser != null && doesUserExist == null)
             {
                 User user = new User();
                 user.Email = registerUser.Email;
                 user.Password = registerUser.Password;
                 userRepository.Add(user);
+                return false;
             }
+            return true;
         }
 
-        public async Task<bool> LoginAsync(string email, string password)
+        public async Task<User> LoginAsync(User user)
         {
-            var user = await userRepository.GetUserAsync(email,password);
-            if (user == null)
-            {
-                return false;
-            }
 
-            var passwordValid = user.Password == password;
-            if(!passwordValid)
+            var currentUser = await userRepository.GetUserAsync(user);
+            if(user != null && currentUser.Password == user.Password)
             {
-                return false;
+                return currentUser;
             }
-           
-            return true;
+            return null;
+        }
+
+        public IEnumerable<Booking> GetSpecificUserBookings(int id)
+        {
+            return bookingRepository.GetUserBookings(id);
+        }
+
+        public User GetUser(int userId)
+        {
+            return userRepository.GetUserById(userId);
+        }
+
+        public void RemoveBooking(Booking booking)
+        {
+            bookingRepository.Delete(booking);
+        }
+
+        public Booking GetBookingById(int id)
+        {
+            return bookingRepository.GetById(id);
         }
     }
 }

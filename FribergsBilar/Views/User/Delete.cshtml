@@ -1,0 +1,39 @@
+﻿@model FribergsBilar.Models.Booking
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Avboka</h1>
+
+<h3>Är du säker att du vill avboka?</h3>
+<div>
+    <h4>Bokning</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Namn:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CarName)
+        </dd>
+        <dt class = "col-sm-2">
+            Start Datum: 
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            Slut Datum:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="BookingId" />
+        <input type="submit" value="Avboka" class="btn btn-danger" /> |
+        <a asp-action="Profile">Tillbaka</a>
+    </form>
+</div>

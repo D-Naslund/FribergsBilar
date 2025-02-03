@@ -1,0 +1,80 @@
+﻿@model IEnumerable<FribergsBilar.Models.Booking>
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h2>Kommande bokningar</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Start Datum:
+            </th>
+            <th>
+                Slut Datum:
+            </th>
+            <th>
+                Namn:
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            @if (!item.IsCompleted)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CarName)
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.BookingId">Avboka</a>
+                    </td>
+                </tr>
+            }
+}
+    </tbody>
+</table>
+<h2>Avklarade bokningar</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Start Datum:
+            </th>
+            <th>
+                Slut Datum:
+            </th>
+            <th>
+                Namn:
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.IsCompleted)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CarName)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

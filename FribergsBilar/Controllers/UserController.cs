@@ -1,4 +1,5 @@
 ﻿using FribergsBilar.Models;
+using FribergsBilar.Services;
 using FribergsBilar.Services.Interfaces;
 using FribergsBilar.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -7,16 +8,35 @@ namespace FribergsBilar.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IUserService authService;
-        public UserController(IUserService authService)
+        private readonly IUserService userService;
+        public UserController(IUserService userService)
         {
-            this.authService = authService;
+            this.userService = userService;
         }
 
         // GET: UserController
-        public ActionResult Index()
+        public ActionResult Profile()
         {
-            return RedirectToAction("Index","Home");
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    ViewData["loggedIn"] = HttpContext.Session.GetString("CurrentEmail");
+                    if (HttpContext.Session.GetInt32("CurrentId") != null)
+                    {
+                        int currentUser = (int)HttpContext.Session.GetInt32("CurrentId");
+                        var user = userService.GetSpecificUserBookings(currentUser);
+                        return View(user);
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return View();
+            }
+            
         }
 
         // GET: UserController/Details/5
@@ -25,27 +45,54 @@ namespace FribergsBilar.Controllers
             return View();
         }
 
+        public ActionResult Delete(int id)
+        {
+            return View(userService.GetBookingById(id));
+        }
+
+        // POST: BookingController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Booking booking)
+        {
+            try
+            {
+                userService.RemoveBooking(booking);
+                return RedirectToAction("Profile");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         // GET: UserController/Login
         public ActionResult Login()
         {
+
             return View();
         }
 
         // POST: UserController/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel LoginVM )
+        public async Task<ActionResult> Login(LoginViewModel loginVM )
         {
             try
             {
                 ModelState.Remove("RegisterUser");
                 if (ModelState.IsValid)
                 {
-                    var result = await authService.LoginAsync(LoginVM.User.Email, LoginVM.User.Password);
-                    if(result == true)
+                    var user = await userService.LoginAsync(loginVM.User);
+                    if(user != null)
                     {
-                        Response.Cookies.Append("loggedIn", LoginVM.User.Email);
-                        return RedirectToAction("Privacy", "Home");
+                        HttpContext.Session.SetString("CurrentEmail", user.Email);
+                        HttpContext.Session.SetInt32("CurrentId", user.UserId);
+                        if(HttpContext.Session.GetInt32("BookingInProcess") != null)
+                        {
+                            return RedirectToAction("Date", "Booking");
+                        }
+                        return RedirectToAction("Profile", "User");
                     }
                 }
                 return View();
@@ -60,8 +107,12 @@ namespace FribergsBilar.Controllers
         {
             try
             {
-                Response.Cookies.Delete("loggedIn");
-                return RedirectToAction("Index", "Home");
+                if(ModelState.IsValid)
+                {
+                    HttpContext.Session.Clear();
+                    return RedirectToAction("Index", "Home");
+                }
+                return View();
             }
             catch
             {
@@ -78,9 +129,16 @@ namespace FribergsBilar.Controllers
                 ModelState.Remove("User");
                 if (ModelState.IsValid)
                 {
-                    authService.CreateUser(LoginVM.RegisterUser);
-                    return RedirectToAction("Login", "User");
-                    
+                    var userExist = userService.CreateUser(LoginVM.RegisterUser);
+                    if(userExist == false)
+                    {
+                        TempData["SuccessMessage"] = "Registrering Lyckad \n Vänligen logga in!";
+                    }
+                    else
+                    {
+                        TempData["FailureMessage"] = "Registrering Misslyckades \n Vänligen Försök igen!";
+                    }
+                    return RedirectToAction("Login", "User");                   
                 }
                 else
                 {

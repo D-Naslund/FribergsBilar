@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
-namespace FribergsBilar.Repositories
+namespace FribergsBilar.Data.Repositories
 {
     public class UserRepository : IUser
     {
@@ -33,9 +33,26 @@ namespace FribergsBilar.Repositories
             applicationDBContext.SaveChanges();
         }
 
-        public async Task<User> GetUserAsync(string email, string password)
+        public async Task<User> GetUserAsync(User user)
         {
-            return await applicationDBContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await applicationDBContext.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return applicationDBContext.Users.OrderBy(u => u.UserId); 
+        }
+
+        public User GetUserById(int id)
+        {
+            return applicationDBContext.Users.FirstOrDefault(u => u.UserId == id);
+        
+        
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return applicationDBContext.Users.FirstOrDefault(u => u.Email == email);
         }
     }
 }
