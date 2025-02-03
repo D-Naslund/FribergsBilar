@@ -13,8 +13,6 @@ namespace FribergsBilar.Services
         private readonly IUser userRepository;
         private readonly IBooking bookingRepository;
 
-        private User CurrentUser { get; set; }
-
         public UserService(IUser userRepository, IBooking bookingRepository)
         {
             this.userRepository = userRepository;
@@ -54,6 +52,16 @@ namespace FribergsBilar.Services
         public User GetUser(int userId)
         {
             return userRepository.GetUserById(userId);
+        }
+
+        public void RemoveBooking(Booking booking)
+        {
+            bookingRepository.Delete(booking);
+        }
+
+        public Booking GetBookingById(int id)
+        {
+            return bookingRepository.GetById(id);
         }
     }
 }

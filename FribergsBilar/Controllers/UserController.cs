@@ -1,4 +1,5 @@
 ﻿using FribergsBilar.Models;
+using FribergsBilar.Services;
 using FribergsBilar.Services.Interfaces;
 using FribergsBilar.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,27 @@ namespace FribergsBilar.Controllers
         public ActionResult Details(int id)
         {
             return View();
+        }
+
+        public ActionResult Delete(int id)
+        {
+            return View(userService.GetBookingById(id));
+        }
+
+        // POST: BookingController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Booking booking)
+        {
+            try
+            {
+                userService.RemoveBooking(booking);
+                return RedirectToAction("Profile");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: UserController/Login

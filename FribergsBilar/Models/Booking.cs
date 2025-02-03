@@ -7,7 +7,9 @@ namespace FribergsBilar.Models
         [Key]
         public int BookingId { get; set; }
         public string CarName { get; set; } = "";
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime StartDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime EndDate { get; set; }
         public virtual bool IsCompleted { get; set; }
         public Car Car { get; set; }
