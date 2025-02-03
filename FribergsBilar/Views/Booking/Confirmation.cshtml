@@ -1,0 +1,37 @@
+﻿@model FribergsBilar.Models.Booking
+
+@{
+    ViewData["Title"] = "Confirmation";
+}
+
+<h1>Bekräftelse</h1>
+<h3>Du har bookat:</h3>
+
+<div>
+    <hr />
+    <currentBooking>
+        <dl class="row">
+            <dt class="col-sm-2">
+                Namn
+            </dt>
+            <dd class="col-sm-10">
+                @TempData["ConfirmationCarName"]
+            </dd>
+            <dt class="col-sm-2">
+                Start datum:
+            </dt>
+            <dd class="col-sm-10">
+                @TempData["ConfirmationStartDate"]
+            </dd>
+            <dt class="col-sm-2">
+                Slut Datum:
+            </dt>
+            <dd class="col-sm-10">
+                @TempData["ConfirmationEndDate"]
+            </dd>            
+        </dl>
+        <div>
+            <a asp-action="Cars">Tillbaka</a>
+        </div>
+    </currentBooking>
+</div>

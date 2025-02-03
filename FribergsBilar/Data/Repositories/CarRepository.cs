@@ -12,12 +12,12 @@ namespace FribergsBilar.Data.Repositories
         }
         public IEnumerable<Car> GetAll()
         {
-            throw new NotImplementedException();
+            return applicationDBContext.Cars.OrderBy(c => c.CarId);
         }
 
-        public Car GetbyId(int id)
+        public Car GetById(int id)
         {
-            throw new NotImplementedException();
+            return applicationDBContext.Cars.FirstOrDefault( c => c.CarId == id);
         }
     }
 }

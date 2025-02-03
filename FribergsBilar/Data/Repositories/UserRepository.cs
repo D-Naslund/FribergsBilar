@@ -42,5 +42,17 @@ namespace FribergsBilar.Data.Repositories
         {
             return applicationDBContext.Users.OrderBy(u => u.UserId); 
         }
+
+        public User GetUserById(int id)
+        {
+            return applicationDBContext.Users.FirstOrDefault(u => u.UserId == id);
+        
+        
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return applicationDBContext.Users.FirstOrDefault(u => u.Email == email);
+        }
     }
 }

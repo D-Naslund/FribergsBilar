@@ -16,13 +16,26 @@ namespace FribergsBilar.Controllers
         // GET: UserController
         public ActionResult Profile()
         {
-            if(HttpContext.Session.GetInt32("CurrentId") != null)
+            try
             {
-                int currentUser = (int)HttpContext.Session.GetInt32("CurrentId");
-                var user = userService.GetSpecificUserBookings(currentUser);
-                return View(user);
+                if(ModelState.IsValid)
+                {
+                    ViewData["loggedIn"] = HttpContext.Session.GetString("CurrentEmail");
+                    if (HttpContext.Session.GetInt32("CurrentId") != null)
+                    {
+                        int currentUser = (int)HttpContext.Session.GetInt32("CurrentId");
+                        var user = userService.GetSpecificUserBookings(currentUser);
+                        return View(user);
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index", "Home");
+            catch
+            {
+                return View();
+            }
+            
         }
 
         // GET: UserController/Details/5
@@ -53,7 +66,10 @@ namespace FribergsBilar.Controllers
                     {
                         HttpContext.Session.SetString("CurrentEmail", user.Email);
                         HttpContext.Session.SetInt32("CurrentId", user.UserId);
-
+                        if(HttpContext.Session.GetInt32("BookingInProcess") != null)
+                        {
+                            return RedirectToAction("Date", "Booking");
+                        }
                         return RedirectToAction("Profile", "User");
                     }
                 }
@@ -69,8 +85,12 @@ namespace FribergsBilar.Controllers
         {
             try
             {
-                Response.Cookies.Delete("loggedIn");
-                return RedirectToAction("Index", "Home");
+                if(ModelState.IsValid)
+                {
+                    HttpContext.Session.Clear();
+                    return RedirectToAction("Index", "Home");
+                }
+                return View();
             }
             catch
             {
@@ -87,9 +107,16 @@ namespace FribergsBilar.Controllers
                 ModelState.Remove("User");
                 if (ModelState.IsValid)
                 {
-                    userService.CreateUser(LoginVM.RegisterUser);
-                    return RedirectToAction("Login", "User");
-                    
+                    var userExist = userService.CreateUser(LoginVM.RegisterUser);
+                    if(userExist == false)
+                    {
+                        TempData["SuccessMessage"] = "Registrering Lyckad \n Vänligen logga in!";
+                    }
+                    else
+                    {
+                        TempData["FailureMessage"] = "Registrering Misslyckades \n Vänligen Försök igen!";
+                    }
+                    return RedirectToAction("Login", "User");                   
                 }
                 else
                 {

@@ -21,23 +21,27 @@ namespace FribergsBilar.Services
             this.bookingRepository = bookingRepository;
         }
 
-        public void CreateUser(RegisterUser registerUser)
+        public bool CreateUser(RegisterUser registerUser)
         {
-            if(registerUser != null)
+            var doesUserExist = userRepository.GetUserByEmail(registerUser.Email);
+            if(registerUser != null && doesUserExist == null)
             {
                 User user = new User();
                 user.Email = registerUser.Email;
                 user.Password = registerUser.Password;
                 userRepository.Add(user);
+                return false;
             }
+            return true;
         }
 
         public async Task<User> LoginAsync(User user)
         {
-            var tempUser = await userRepository.GetUserAsync(user);
-            if(user != null && tempUser.Password == user.Password)
+
+            var currentUser = await userRepository.GetUserAsync(user);
+            if(user != null && currentUser.Password == user.Password)
             {
-                return tempUser;
+                return currentUser;
             }
             return null;
         }
@@ -45,6 +49,11 @@ namespace FribergsBilar.Services
         public IEnumerable<Booking> GetSpecificUserBookings(int id)
         {
             return bookingRepository.GetUserBookings(id);
+        }
+
+        public User GetUser(int userId)
+        {
+            return userRepository.GetUserById(userId);
         }
     }
 }

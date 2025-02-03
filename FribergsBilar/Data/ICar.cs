@@ -4,7 +4,7 @@ namespace FribergsBilar.Data
 {
     public interface ICar
     {
-        Car GetbyId(int id);
+        Car GetById(int id);
         IEnumerable<Car> GetAll();
     }
 }
