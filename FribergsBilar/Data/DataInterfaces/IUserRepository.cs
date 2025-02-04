@@ -1,8 +1,8 @@
 ﻿using FribergsBilar.Models;
 
-namespace FribergsBilar.Data
+namespace FribergsBilar.Data.DataInterfaces
 {
-    public interface IUser
+    public interface IUserRepository
     {
         Task<User> GetUserAsync(User user);
         User GetUserById(int id);

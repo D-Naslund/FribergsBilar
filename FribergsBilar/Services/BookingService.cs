@@ -1,4 +1,4 @@
-﻿using FribergsBilar.Data;
+﻿using FribergsBilar.Data.DataInterfaces;
 using FribergsBilar.Models;
 using FribergsBilar.Services.Interfaces;
 using Microsoft.EntityFrameworkCore.Query.Internal;
@@ -8,10 +8,10 @@ namespace FribergsBilar.Services
     public class BookingService : IBookingService
     {
         private readonly IUserService userService;
-        private readonly IBooking bookingRepository;
-        private readonly ICar carRepository;
+        private readonly IBookingRepository bookingRepository;
+        private readonly ICarRepository carRepository;
 
-        public BookingService(IUserService userService,IBooking bookingRepository, ICar carRepository )
+        public BookingService(IUserService userService,IBookingRepository bookingRepository, ICarRepository carRepository )
         {
             this.userService = userService;
             this.bookingRepository = bookingRepository;

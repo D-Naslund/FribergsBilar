@@ -1,12 +1,12 @@
-﻿using FribergsBilar.Data;
+﻿using FribergsBilar.Data.DataInterfaces;
 using FribergsBilar.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
-namespace FribergsBilar.Data.Repositories
+namespace FribergsBilar.Data
 {
-    public class UserRepository : IUser
+    public class UserRepository : IUserRepository
     {
         private readonly ApplicationDBContext applicationDBContext;
 
@@ -40,14 +40,14 @@ namespace FribergsBilar.Data.Repositories
 
         public IEnumerable<User> GetAll()
         {
-            return applicationDBContext.Users.OrderBy(u => u.UserId); 
+            return applicationDBContext.Users.OrderBy(u => u.UserId);
         }
 
         public User GetUserById(int id)
         {
             return applicationDBContext.Users.FirstOrDefault(u => u.UserId == id);
-        
-        
+
+
         }
 
         public User GetUserByEmail(string email)

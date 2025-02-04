@@ -1,8 +1,8 @@
 ﻿using FribergsBilar.Models;
 
-namespace FribergsBilar.Data
+namespace FribergsBilar.Data.DataInterfaces
 {
-    public interface ICar
+    public interface ICarRepository
     {
         Car GetById(int id);
         IEnumerable<Car> GetAll();

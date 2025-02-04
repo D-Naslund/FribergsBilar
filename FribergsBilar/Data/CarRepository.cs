@@ -1,8 +1,9 @@
-﻿using FribergsBilar.Models;
+﻿using FribergsBilar.Data.DataInterfaces;
+using FribergsBilar.Models;
 
-namespace FribergsBilar.Data.Repositories
+namespace FribergsBilar.Data
 {
-    public class CarRepository : ICar
+    public class CarRepository : ICarRepository
     {
         private readonly ApplicationDBContext applicationDBContext;
 
@@ -24,7 +25,7 @@ namespace FribergsBilar.Data.Repositories
 
         public Car GetById(int id)
         {
-            return applicationDBContext.Cars.FirstOrDefault( c => c.CarId == id);
+            return applicationDBContext.Cars.FirstOrDefault(c => c.CarId == id);
         }
     }
 }

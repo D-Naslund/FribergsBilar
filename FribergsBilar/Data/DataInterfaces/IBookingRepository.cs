@@ -1,8 +1,8 @@
 ﻿using FribergsBilar.Models;
 
-namespace FribergsBilar.Data
+namespace FribergsBilar.Data.DataInterfaces
 {
-    public interface IBooking
+    public interface IBookingRepository
     {
         Booking GetById(int id);
         IEnumerable<Booking> GetAll();

@@ -1,8 +1,9 @@
-﻿using FribergsBilar.Models;
+﻿using FribergsBilar.Data.DataInterfaces;
+using FribergsBilar.Models;
 
-namespace FribergsBilar.Data.Repositories
+namespace FribergsBilar.Data
 {
-    public class BookingRepository : IBooking
+    public class BookingRepository : IBookingRepository
     {
 
         private readonly ApplicationDBContext applicationDBContext;
@@ -19,7 +20,7 @@ namespace FribergsBilar.Data.Repositories
         }
 
         public void Delete(Booking booking)
-        { 
+        {
             applicationDBContext.Remove(booking);
             applicationDBContext.SaveChanges();
 

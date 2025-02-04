@@ -8,11 +8,11 @@ namespace FribergsBilar.Models
         [Key]
         public int UserId { get; set; }
 
-        [Required(ErrorMessage = "The email address is required")]
+        [Required(ErrorMessage = "Mailadressen saknas")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; } = "";
 
-        [Required(ErrorMessage = "The password is required")]
+        [Required(ErrorMessage = "Lösenordet saknas")]
         //[PasswordPropertyText]
         public string Password { get; set; } = "";
         public virtual ICollection<Booking>? Bookings { get; set; } = new List<Booking>();

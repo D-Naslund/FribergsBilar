@@ -4,7 +4,9 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Logga in</h1>
+<h1>Användare</h1>
+
+<h4>Logga in</h4>
 <hr/>
 <div class="row">
     <div class="col-md-4">
@@ -27,6 +29,13 @@
                     <div class="form-group">
                         <input type="submit" value="Logga in" class="btn btn-primary" />
                     </div>
+                    <br />
+                    @if (TempData["FailureLoginMessage"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["FailureLoginMessage"]
+                        </div>
+                    }
                 </form>
             </div>
             <div class="container">
@@ -50,16 +59,16 @@
                         <input type="submit" value="Registrera" class="btn btn-primary" />
                     </div>
                     <br />
-                    @if (TempData["SuccessMessage"] != null)
+                    @if (TempData["SuccessRegisterMessage"] != null)
                     {
                         <div class="alert alert-success">
-                            @TempData["SuccessMessage"]
+                            @TempData["SuccessRegisterMessage"]
                         </div>
                     }
-                    @if (TempData["FailureMessage"] != null)
+                    @if (TempData["FailureRegisterMessage"] != null)
                     {
                         <div class="alert alert-danger">
-                            @TempData["FailureMessage"]
+                            @TempData["FailureRegisterMessage"]
                         </div>
                     }
                 </form>

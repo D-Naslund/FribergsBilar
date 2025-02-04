@@ -94,6 +94,10 @@ namespace FribergsBilar.Controllers
                         }
                         return RedirectToAction("Profile", "User");
                     }
+                    else
+                    {
+                        TempData["FailureLoginMessage"] = "Login Misslyckades \n Vänligen Försök igen!";
+                    }
                 }
                 return View();
             }
@@ -132,11 +136,11 @@ namespace FribergsBilar.Controllers
                     var userExist = userService.CreateUser(LoginVM.RegisterUser);
                     if(userExist == false)
                     {
-                        TempData["SuccessMessage"] = "Registrering Lyckad \n Vänligen logga in!";
+                        TempData["SuccessRegisterMessage"] = "Registrering Lyckad \n Vänligen logga in!";
                     }
                     else
                     {
-                        TempData["FailureMessage"] = "Registrering Misslyckades \n Vänligen Försök igen!";
+                        TempData["FailureRegisterMessage"] = "Registrering Misslyckades \n Vänligen Försök igen!";
                     }
                     return RedirectToAction("Login", "User");                   
                 }

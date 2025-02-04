@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using FribergsBilar.Data;
+using FribergsBilar.Data.DataInterfaces;
 using FribergsBilar.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +8,9 @@ namespace FribergsBilar.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ICar carRepository;
+        private readonly ICarRepository carRepository;
 
-        public HomeController(ILogger<HomeController> logger, ICar carRepository)
+        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository)
         {
             _logger = logger;
             this.carRepository = carRepository;
