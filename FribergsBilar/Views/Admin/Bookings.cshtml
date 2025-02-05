@@ -4,25 +4,25 @@
     ViewData["Title"] = "Bookings";
 }
 
-<h1>Bookings</h1>
+<h1>Bokningar</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CarName)
+                Namn:
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDate)
+                Start datum:
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                Slut datum:
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsCompleted)
+                Mail:
+            </th>
+            <th>
+                Avklarad:
             </th>
             <th></th>
         </tr>
@@ -39,15 +39,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsCompleted)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BookingId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BookingId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BookingId">Delete</a>
-            </td>
+
+            @if(item.IsCompleted == false)
+            {
+                    <td>
+                        <a asp-action="Delete" asp-controller="Booking" asp-route-id="@item.BookingId">Ta bort</a>
+                    </td>
+            }
         </tr>
 }
     </tbody>
 </table>
+
+<div>
+    <a asp-action="Dashboard" asp-controller="Admin">Tillbaka</a>
+</div>

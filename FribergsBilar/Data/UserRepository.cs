@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 
 namespace FribergsBilar.Data
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUser
     {
         private readonly ApplicationDBContext applicationDBContext;
 

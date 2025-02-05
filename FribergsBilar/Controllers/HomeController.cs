@@ -8,9 +8,9 @@ namespace FribergsBilar.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ICarRepository carRepository;
+        private readonly ICar carRepository;
 
-        public HomeController(ILogger<HomeController> logger, ICarRepository carRepository)
+        public HomeController(ILogger<HomeController> logger, ICar carRepository)
         {
             _logger = logger;
             this.carRepository = carRepository;

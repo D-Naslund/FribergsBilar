@@ -12,7 +12,7 @@
     <currentBooking>
         <dl class="row">
             <dt class="col-sm-2">
-                Namn
+                Namn:
             </dt>
             <dd class="col-sm-10">
                 @TempData["ConfirmationCarName"]
@@ -24,7 +24,7 @@
                 @TempData["ConfirmationStartDate"]
             </dd>
             <dt class="col-sm-2">
-                Slut Datum:
+                Slut datum:
             </dt>
             <dd class="col-sm-10">
                 @TempData["ConfirmationEndDate"]
@@ -32,6 +32,7 @@
         </dl>
         <div>
             <a asp-action="Cars">Tillbaka</a>
+            <a asp-action="Profile" asp-controller="User">Profil</a>
         </div>
     </currentBooking>
 </div>

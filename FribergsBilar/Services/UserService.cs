@@ -9,10 +9,10 @@ namespace FribergsBilar.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository userRepository;
-        private readonly IBookingRepository bookingRepository;
+        private readonly IUser userRepository;
+        private readonly IBooking bookingRepository;
 
-        public UserService(IUserRepository userRepository, IBookingRepository bookingRepository)
+        public UserService(IUser userRepository, IBooking bookingRepository)
         {
             this.userRepository = userRepository;
             this.bookingRepository = bookingRepository;
@@ -44,24 +44,24 @@ namespace FribergsBilar.Services
             return null;
         }
 
-        public IEnumerable<Booking> GetSpecificUserBookings(int id)
-        {
-            return bookingRepository.GetUserBookings(id);
-        }
-
-        public User GetUser(int userId)
+        public User GetUserById(int userId)
         {
             return userRepository.GetUserById(userId);
         }
 
-        public void RemoveBooking(Booking booking)
+        public void AddUser(User user)
         {
-            bookingRepository.Delete(booking);
+            userRepository.Add(user);
         }
 
-        public Booking GetBookingById(int id)
+        public void UpdateUser(User user)
         {
-            return bookingRepository.GetById(id);
+            userRepository.Update(user);
+        }
+
+        public void DeleteUser(User user)
+        {
+            userRepository.Delete(user);
         }
     }
 }

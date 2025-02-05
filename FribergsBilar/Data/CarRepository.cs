@@ -3,7 +3,7 @@ using FribergsBilar.Models;
 
 namespace FribergsBilar.Data
 {
-    public class CarRepository : ICarRepository
+    public class CarRepository : ICar
     {
         private readonly ApplicationDBContext applicationDBContext;
 
@@ -12,9 +12,26 @@ namespace FribergsBilar.Data
             this.applicationDBContext = applicationDBContext;
         }
 
+        public void Add(Car car)
+        {
+            applicationDBContext.Cars.Add(car);
+            applicationDBContext.SaveChanges();
+        }
+
+        public void Update(Car car)
+        {
+            applicationDBContext.Cars.Update(car);
+            applicationDBContext.SaveChanges();
+        }        
+
         public void Delete(Car car)
         {
-            applicationDBContext.Remove(car);
+            applicationDBContext.Cars.Remove(car);
+            applicationDBContext.SaveChanges();
+        }
+        public void DeactivateCar(Car car)
+        {
+            applicationDBContext.Cars.Update(car);
             applicationDBContext.SaveChanges();
         }
 

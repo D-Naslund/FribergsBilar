@@ -6,14 +6,11 @@ namespace FribergsBilar.Services.Interfaces
     public interface IUserService
     {
         Task<User> LoginAsync(User user);
-        User GetUser(int userId);
-
-        Booking GetBookingById(int id);
-        void RemoveBooking(Booking booking);
-
+        User GetUserById(int userId);
+        void AddUser(User user);
+        void UpdateUser(User user);
+        void DeleteUser(User user);
         bool CreateUser(RegisterUser registerUser);
-
-        IEnumerable<Booking> GetSpecificUserBookings(int id);
 
     }
 }

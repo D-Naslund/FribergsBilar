@@ -2,7 +2,7 @@
 
 namespace FribergsBilar.Data.DataInterfaces
 {
-    public interface IUserRepository
+    public interface IUser
     {
         Task<User> GetUserAsync(User user);
         User GetUserById(int id);

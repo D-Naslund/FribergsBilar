@@ -1,9 +1,10 @@
 ﻿using FribergsBilar.Data.DataInterfaces;
 using FribergsBilar.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FribergsBilar.Data
 {
-    public class BookingRepository : IBookingRepository
+    public class BookingRepository : IBooking
     {
 
         private readonly ApplicationDBContext applicationDBContext;
@@ -19,16 +20,22 @@ namespace FribergsBilar.Data
             applicationDBContext.SaveChanges();
         }
 
+        public void Update(Booking booking)
+        {
+            applicationDBContext.Bookings.Update(booking);
+            applicationDBContext.SaveChanges();
+        }
+
         public void Delete(Booking booking)
         {
-            applicationDBContext.Remove(booking);
+            applicationDBContext.Bookings.Remove(booking);
             applicationDBContext.SaveChanges();
 
         }
 
         public IEnumerable<Booking> GetAll()
         {
-            return applicationDBContext.Bookings.OrderBy(b => b.BookingId);
+            return applicationDBContext.Bookings.Include(b => b.User).OrderBy(b => b.BookingId);
         }
 
         public Booking GetById(int id)

@@ -2,7 +2,7 @@
 
 namespace FribergsBilar.Data.DataInterfaces
 {
-    public interface IAdminRepository
+    public interface IAdmin
     {
         Task<Admin> GetAdminAsync(Admin admin);
     }

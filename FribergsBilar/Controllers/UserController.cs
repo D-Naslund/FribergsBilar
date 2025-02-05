@@ -1,4 +1,5 @@
-﻿using FribergsBilar.Models;
+﻿using FribergsBilar.Data;
+using FribergsBilar.Models;
 using FribergsBilar.Services;
 using FribergsBilar.Services.Interfaces;
 using FribergsBilar.ViewModels;
@@ -9,9 +10,12 @@ namespace FribergsBilar.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
-        public UserController(IUserService userService)
+        private readonly IBookingService bookingService;
+
+        public UserController(IUserService userService, IBookingService bookingService)
         {
             this.userService = userService;
+            this.bookingService = bookingService;
         }
 
         // GET: UserController
@@ -25,7 +29,7 @@ namespace FribergsBilar.Controllers
                     if (HttpContext.Session.GetInt32("CurrentId") != null)
                     {
                         int currentUser = (int)HttpContext.Session.GetInt32("CurrentId");
-                        var user = userService.GetSpecificUserBookings(currentUser);
+                        var user = bookingService.GetSpecificUserBookings(currentUser);
                         return View(user);
                     }
                     return RedirectToAction("Index", "Home");
@@ -39,26 +43,74 @@ namespace FribergsBilar.Controllers
             
         }
 
-        // GET: UserController/Details/5
-        public ActionResult Details(int id)
+        [AdminAuthorize]
+        public ActionResult Create()
         {
             return View();
         }
 
-        public ActionResult Delete(int id)
-        {
-            return View(userService.GetBookingById(id));
-        }
-
-        // POST: BookingController/Delete/5
+        [AdminAuthorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Booking booking)
+        public ActionResult Create(User user)
         {
             try
             {
-                userService.RemoveBooking(booking);
-                return RedirectToAction("Profile");
+                if (ModelState.IsValid)
+                {
+                    userService.AddUser(user);
+                }
+                return RedirectToAction("Users", "Admin");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [AdminAuthorize]
+        public ActionResult Edit(int id)
+        {
+            User user = new User();
+            user = userService.GetUserById(id);
+            return View(user);
+        }
+
+
+        [AdminAuthorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(User user)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    userService.UpdateUser(user);
+                }
+                return RedirectToAction("Users", "Admin");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        [AdminAuthorize]
+        public ActionResult Delete(int id)
+        {
+            return View(userService.GetUserById(id));
+        }
+
+        // POST: BookingController/Delete/5
+        [AdminAuthorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(User user)
+        {
+            try
+            {
+                userService.DeleteUser(user);
+                return RedirectToAction("Users", "Admin");
             }
             catch
             {

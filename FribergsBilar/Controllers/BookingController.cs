@@ -1,5 +1,7 @@
-﻿using FribergsBilar.Models;
+﻿using FribergsBilar.Data;
+using FribergsBilar.Models;
 using FribergsBilar.Services.Interfaces;
+using FribergsBilar.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
@@ -8,11 +10,13 @@ namespace FribergsBilar.Controllers
 {
     public class BookingController : Controller
     {
-        public IBookingService bookingService { get; }
+        private readonly IBookingService bookingService;
+        private readonly ICarService carService;
 
-        public BookingController(IBookingService bookingService)
+        public BookingController(IBookingService bookingService, ICarService carService)
         {
             this.bookingService = bookingService;
+            this.carService = carService;
         }
         // GET: BookingController
         public ActionResult Index()
@@ -20,69 +24,32 @@ namespace FribergsBilar.Controllers
             return View();
         }
 
-        // GET: BookingController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View(bookingService.GetCarById(id));
-        }
-
-        // GET: BookingController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: BookingController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: BookingController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: BookingController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: BookingController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View(bookingService.GetCarById(id));
+            return View(bookingService.GetBookingById(id));
         }
 
         // POST: BookingController/Delete/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Car car)
+        public ActionResult Delete(Booking booking)
         {
             try
             {
-                bookingService.DeleteCar(car);
-                return RedirectToAction("Cars");
+                if(HttpContext.Session.GetString("isAdmin") != null)
+                {
+                    bookingService.DeleteBooking(booking);
+                    return RedirectToAction("Bookings", "Admin");
+                }
+                else
+                {
+                    bookingService.DeleteBooking(booking);
+                    return RedirectToAction("Profile", "User");
+                }
+
+
             }
             catch
             {
@@ -93,7 +60,7 @@ namespace FribergsBilar.Controllers
         public ActionResult Cars()
         {
             ViewData["loggedIn"] = HttpContext.Session.GetString("CurrentEmail");
-            var carsList = bookingService.GetCarList();
+            var carsList = carService.GetCarList();
             return View(carsList);
         }
 
@@ -128,7 +95,7 @@ namespace FribergsBilar.Controllers
             var carId = (int)HttpContext.Session.GetInt32("BookingInProcess");
             if(carId != 0)
             {
-                var currentCar = bookingService.GetCarById(carId);
+                var currentCar = carService.GetCarById(carId);
                 ViewData["CurrentCarData"] = currentCar.Name;
                 return View();
             }

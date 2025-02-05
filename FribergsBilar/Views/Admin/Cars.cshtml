@@ -4,31 +4,31 @@
     ViewData["Title"] = "Cars";
 }
 
-<h1>Cars</h1>
+<h1>Bilar</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-controller="Car">Skapa ny</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Namn:
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                Typ:
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Seats)
+                platser:
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                Pris:
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
+                Bildlänk:
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsActive)
+                Aktiv:
             </th>
             <th></th>
         </tr>
@@ -55,11 +55,15 @@
                 @Html.DisplayFor(modelItem => item.IsActive)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CarId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CarId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CarId">Delete</a>
+                    <a asp-action="Edit" asp-controller="Car" asp-route-id="@item.CarId">Redigera</a> |
+                <a asp-action="Delete" asp-controller="Car" asp-route-id="@item.CarId">Ta bort</a>
+
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<div>
+    <a asp-action="Dashboard" asp-controller="Admin">Tillbaka</a>
+</div>

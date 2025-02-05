@@ -11,5 +11,16 @@ namespace FribergsBilar.Data
         public DbSet<Booking> Bookings { get; set; }
 
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options) { }
+
+        //Stops the cascade deletion of bookings if car is deleted from database
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Car) 
+                .WithMany()
+                .HasForeignKey(b => b.CarId)
+                .OnDelete(DeleteBehavior.SetNull); 
+        }
+
     }
 }

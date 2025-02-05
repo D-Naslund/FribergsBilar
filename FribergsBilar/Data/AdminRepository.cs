@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FribergsBilar.Data
 {
-    public class AdminRepository : IAdminRepository
+    public class AdminRepository : IAdmin
     {
         private readonly ApplicationDBContext applicationDBContext;
 

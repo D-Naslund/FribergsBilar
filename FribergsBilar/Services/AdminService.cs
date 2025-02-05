@@ -7,12 +7,12 @@ namespace FribergsBilar.Services
 {
     public class AdminService : IAdminService
     {
-        private readonly IAdminRepository adminRepository;
-        private readonly IBookingRepository bookingRepository;
-        private readonly ICarRepository carRepository;
-        private readonly IUserRepository userRepository;
+        private readonly IAdmin adminRepository;
+        private readonly IBooking bookingRepository;
+        private readonly ICar carRepository;
+        private readonly IUser userRepository;
 
-        public AdminService(IAdminRepository adminRepository, IBookingRepository bookingRepository, ICarRepository carRepository, IUserRepository userRepository)
+        public AdminService(IAdmin adminRepository, IBooking bookingRepository, ICar carRepository, IUser userRepository)
         {
             this.adminRepository = adminRepository;
             this.bookingRepository = bookingRepository;

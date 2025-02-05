@@ -1,6 +1,7 @@
 ﻿using FribergsBilar.Data.DataInterfaces;
 using FribergsBilar.Models;
 using FribergsBilar.Services.Interfaces;
+using FribergsBilar.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace FribergsBilar.Services
@@ -8,48 +9,39 @@ namespace FribergsBilar.Services
     public class BookingService : IBookingService
     {
         private readonly IUserService userService;
-        private readonly IBookingRepository bookingRepository;
-        private readonly ICarRepository carRepository;
+        private readonly IBooking bookingRepository;
+        private readonly ICarService carService;
 
-        public BookingService(IUserService userService,IBookingRepository bookingRepository, ICarRepository carRepository )
+        public BookingService(IUserService userService,IBooking bookingRepository, ICarService carService )
         {
             this.userService = userService;
             this.bookingRepository = bookingRepository;
-            this.carRepository = carRepository;
+            this.carService = carService;
         }
 
-        public IEnumerable<Booking> GetBookingList()
+        public IEnumerable<Booking> GetSpecificUserBookings(int id)
         {
-            return null;
+            return bookingRepository.GetUserBookings(id);
         }
 
         public Booking CreateBooking(DateTime startDate, DateTime endDate, int carId, int userId)
         {
-           var currentCar = GetCarById(carId);
-           var currentUser = userService.GetUser(userId);
+           var currentCar = carService.GetCarById(carId);
+           var currentUser = userService.GetUserById(userId);
            Booking newBooking = new Booking(currentCar.Name, startDate,endDate,currentCar,currentUser);
            bookingRepository.Add(newBooking);
             return newBooking;
         }
-
-        public IEnumerable<Car> GetCarList()
-        {
-            return carRepository.GetAll();
-        }
-
-        public Car GetCarById(int carId)
-        {
-            return carRepository.GetById(carId);
-        }
-
-        public Booking ConfirmationBooking(int id)
+        public Booking GetBookingById(int id)
         {
             return bookingRepository.GetById(id);
         }
 
-        public void DeleteCar(Car car)
+        public void DeleteBooking(Booking booking)
         {
-            carRepository.Delete(car);
+            bookingRepository.Delete(booking);
         }
+
+
     }
 }

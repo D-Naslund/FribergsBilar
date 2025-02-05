@@ -1,11 +1,12 @@
 ﻿@model FribergsBilar.Models.Car
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete";
 }
 
-<h1>Details</h1>
+<h1>Ta bort bil</h1>
 
+<h3>Är du säker att du vill ta bort bilen?</h3>
 <div>
     <h4>Car</h4>
     <hr />
@@ -34,9 +35,21 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Price)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ImageUrl)
+        </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.CarId">Edit</a> |
-    <a asp-action="Cars">Back to List</a>
+    <div class="container alert-warning">
+        <h3>!!Varning!!</h3>
+        <p>Borttagning av bilen kommer ta bort bilen id från alla bokningar med den bilen</p>
+        <p>Rekomenderar att istället ändra bilens "isActive" för att ta bort den från användarna</p>
+    </div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="CarId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Cars" asp-controller="Admin">Tillbaka</a>
+    </form>
 </div>

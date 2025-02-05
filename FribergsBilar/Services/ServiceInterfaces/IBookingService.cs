@@ -1,17 +1,14 @@
-﻿using FribergsBilar.Models;
+﻿using FribergsBilar.Data;
+using FribergsBilar.Models;
 
 namespace FribergsBilar.Services.Interfaces
 {
     public interface IBookingService
     {
-        public Booking CreateBooking(DateTime start, DateTime end, int carId, int userId);
-        public Booking ConfirmationBooking(int id);
+        Booking CreateBooking(DateTime start, DateTime end, int carId, int userId);
+        Booking GetBookingById(int id);
+        void DeleteBooking(Booking booking);
+        IEnumerable<Booking> GetSpecificUserBookings(int id);
 
-        public IEnumerable<Booking> GetBookingList();
-        public IEnumerable<Car> GetCarList();
-
-        void DeleteCar(Car car);
-
-        public Car GetCarById(int CarId);
     }
 }

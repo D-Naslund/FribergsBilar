@@ -1,4 +1,5 @@
-﻿using FribergsBilar.Models;
+﻿using FribergsBilar.Data;
+using FribergsBilar.Models;
 using FribergsBilar.Services;
 using FribergsBilar.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -25,18 +26,22 @@ namespace FribergsBilar.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                HttpContext.Session.Clear();
+                if (ModelState.IsValid)
                 {
                     var currentAdmin = await adminService.LoginAdminAsync(admin);
                     if (currentAdmin != null)
                     {
+                        HttpContext.Session.SetString("isAdmin", "True");
                         return RedirectToAction("Dashboard");
                     }
                     else
                     {
                         TempData["AdminFailureLoginMessage"] = "Login Misslyckades \n Vänligen Försök igen!";
                     }
+
                 }
+                HttpContext.Session.SetString("isAdmin", "False");
                 return View();
             }
             catch
@@ -45,22 +50,34 @@ namespace FribergsBilar.Controllers
             }
         }
 
+        [AdminAuthorize]
         public ActionResult Dashboard()
         {
             return View();
         }
 
+        [AdminAuthorize]
+        public ActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index","Home");
+        }
+        [AdminAuthorize]
         public ActionResult Cars()
         {
             return View(adminService.GetAllCars());
         }
+        [AdminAuthorize]
         public ActionResult Users()
         {
             return View(adminService.GetAllUsers());
         }
+        [AdminAuthorize]
         public ActionResult Bookings()
         {
             return View(adminService.GetAllBookings());
         }
+
+        
     }
 }

@@ -35,7 +35,7 @@
                         @Html.DisplayFor(modelItem => item.CarName)
                     </td>
                     <td>
-                        <a asp-action="Delete" asp-route-id="@item.BookingId">Avboka</a>
+                        <a asp-action="Delete" asp-controller="Booking" asp-route-id="@item.BookingId">Avboka</a>
                     </td>
                 </tr>
             }
