@@ -21,12 +21,6 @@ namespace FribergsBilar.Controllers
             return View();
         }
 
-        // GET: CarController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View(carService.GetCarById(id));
-        }
-
         // GET: CarController/Create
         [AdminAuthorize]
         public ActionResult Create()

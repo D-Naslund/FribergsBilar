@@ -95,6 +95,7 @@ namespace FribergsBilar.Controllers
                 return View();
             }
         }
+
         [AdminAuthorize]
         public ActionResult Delete(int id)
         {
