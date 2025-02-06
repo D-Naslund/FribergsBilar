@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create" asp-controller="Car">Skapa ny</a>
 </p>
-<div class="table-responsive">
+<div>
     <table class="table align-middle">
         <thead>
             <tr>
@@ -50,7 +50,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
-                    <td width="30%">
+                    <td class="text-break">
                         @Html.DisplayFor(modelItem => item.ImageUrl)
                     </td>
                     <td>

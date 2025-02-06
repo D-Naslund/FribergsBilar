@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FribergsBilar.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250124124753_second")]
-    partial class second
+    [Migration("20250206151442_CarImageToCollection")]
+    partial class CarImageToCollection
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,16 +25,47 @@ namespace FribergsBilar.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FribergsBilar.Models.Booking", b =>
+            modelBuilder.Entity("FribergsBilar.Models.Admin", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AdminId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminId"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AdminId");
+
+                    b.ToTable("Admins");
+                });
+
+            modelBuilder.Entity("FribergsBilar.Models.Booking", b =>
+                {
+                    b.Property<int>("BookingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
+
+                    b.Property<int?>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CarName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -42,25 +73,28 @@ namespace FribergsBilar.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("carId")
-                        .HasColumnType("int");
+                    b.HasKey("BookingId");
 
-                    b.HasKey("Id");
+                    b.HasIndex("CarId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("carId");
 
                     b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("FribergsBilar.Models.Car", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CarId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarId"));
+
+                    b.PrimitiveCollection<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -76,18 +110,18 @@ namespace FribergsBilar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CarId");
 
                     b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("FribergsBilar.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -97,24 +131,25 @@ namespace FribergsBilar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("FribergsBilar.Models.Booking", b =>
                 {
-                    b.HasOne("FribergsBilar.Models.User", null)
+                    b.HasOne("FribergsBilar.Models.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("FribergsBilar.Models.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId");
 
-                    b.HasOne("FribergsBilar.Models.Car", "car")
-                        .WithMany()
-                        .HasForeignKey("carId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Car");
 
-                    b.Navigation("car");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FribergsBilar.Models.User", b =>
