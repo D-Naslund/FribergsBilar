@@ -13,36 +13,44 @@
 <body>
     @if (HttpContextAccessor.HttpContext.Session.GetString("isAdmin") == null )
     {
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <header> 
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+                <img src="~/images/Logo-FribergsBilar.png" alt="FribergsBilar" width="120" height="120"/>
                 <div class="container-fluid">
-                    <img src="~/images/Logo-FribergsBilar.png" alt="FribergsBilar" width="120" height="120"/>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Hem</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Cars">Bilar</a>
-                            </li>
-                            @if (ViewData["loggedIn"] == null)
-                            {
+                    <div class="navbar-collapse collapse d-sm-inline-flex">
+                        <div>
+                            <ul class="navbar-nav justify-content-center">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Logga in</a>
+                                    <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Index">Hem</a>
                                 </li>
-                            }
-                            @if (ViewData["loggedIn"] != null)
-                            {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Profile">Profil</a>
+                                    <a class="nav-link text-black" asp-area="" asp-controller="Booking" asp-action="Cars">Bilar</a>
                                 </li>
+                                @if (ViewData["loggedIn"] != null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-black" asp-area="" asp-controller="User" asp-action="Profile">Profil</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="ms-auto">
+                            <ul class="navbar-nav">
+                                @if (ViewData["loggedIn"] == null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-black" asp-area="" asp-controller="User" asp-action="Login">Logga in</a>
+                                    </li>
+                                }
 
-
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logga ut</a>
-                                </li>
-                            }
-                        </ul>
+                                @if (ViewData["loggedIn"] != null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-black" asp-area="" asp-controller="User" asp-action="Logout">Logga ut</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>                        
                     </div>
                 </div>
             </nav>

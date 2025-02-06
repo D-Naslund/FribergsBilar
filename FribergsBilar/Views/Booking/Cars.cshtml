@@ -5,52 +5,59 @@
 }
 
 <h1>Bilar</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Namn:
-            </th>
-            <th>
-                Typ: 
-            </th>
-            <th>
-                platser:
-            </th>
-            <th>
-                Pris
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var car in Model) {
-    @if(car.IsActive == true)
-    {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => car.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => car.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => car.Seats)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => car.Price) kr / Dag
-                    </td>
-                    <td>
-                        <img src="@car.ImageUrl" alt="@car.Name" width="200" height="120" />
-                    </td>
-                    <td>
-                        <form asp-action="BookCar" asp-controller="Booking" method="post">
-                            <input type="hidden" name="id" value="@car.CarId" />
-                            <button type="submit" class="btn btn-primary">Boka</button>
-                        </form>
-                    </td>
-                </tr>
-    }       
-}
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>
+                    Bild:
+                </th>
+                <th>
+                    Namn:
+                </th>
+                <th>
+                    Typ:
+                </th>
+                <th>
+                    platser:
+                </th>
+                <th>
+                    Pris
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model)
+            {
+                @if (car.IsActive == true)
+                {
+                    <tr>
+                        <td width="30%">
+                            <img src="@car.ImageUrl" alt="@car.Name" width="300" height="200" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => car.Name) 
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => car.Type) 
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => car.Seats) 
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => car.Price) kr / Dag 
+                        </td>
+                        <td>
+                            <form asp-action="BookCar" asp-controller="Booking" method="post">
+                                <input type="hidden" name="id" value="@car.CarId" />
+                                <button type="submit" class="btn btn-primary">Boka</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+

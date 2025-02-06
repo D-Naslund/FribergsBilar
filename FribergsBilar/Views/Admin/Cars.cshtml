@@ -9,61 +9,65 @@
 <p>
     <a asp-action="Create" asp-controller="Car">Skapa ny</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Namn:
-            </th>
-            <th>
-                Typ:
-            </th>
-            <th>
-                platser:
-            </th>
-            <th>
-                Pris:
-            </th>
-            <th>
-                Bildlänk:
-            </th>
-            <th>
-                Aktiv:
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Seats)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                    <a asp-action="Edit" asp-controller="Car" asp-route-id="@item.CarId">Redigera</a> |
-                <a asp-action="Delete" asp-controller="Car" asp-route-id="@item.CarId">Ta bort</a>
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>
+                    Namn:
+                </th>
+                <th>
+                    Typ:
+                </th>
+                <th>
+                    platser:
+                </th>
+                <th>
+                    Pris:
+                </th>
+                <th>
+                    Bildlänk:
+                </th>
+                <th>
+                    Aktiv:
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Seats)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td width="30%">
+                        @Html.DisplayFor(modelItem => item.ImageUrl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Car" asp-route-id="@item.CarId">Redigera</a> |
+                        <a asp-action="Delete" asp-controller="Car" asp-route-id="@item.CarId">Ta bort</a>
 
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<div>
-    <a asp-action="Dashboard" asp-controller="Admin">Tillbaka</a>
+    <div>
+        <a asp-action="Dashboard" asp-controller="Admin">Tillbaka</a>
+    </div>
 </div>
+
