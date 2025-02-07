@@ -16,11 +16,10 @@ namespace FribergsBilar.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Booking>()
-                .HasOne(b => b.Car) 
+                .HasOne(b => b.Car)
                 .WithMany()
                 .HasForeignKey(b => b.CarId)
-                .OnDelete(DeleteBehavior.SetNull); 
+                .OnDelete(DeleteBehavior.SetNull);
         }
-
     }
 }

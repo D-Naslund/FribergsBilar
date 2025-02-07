@@ -28,6 +28,14 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="UserId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Tillbaka</a>
+        <a asp-action="Users" asp-controller="Admin">Tillbaka</a>
     </form>
+    <br />
+    @if (TempData["UserDeleteFail"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["UserDeleteFail"]
+        </div>
+    }
+    
 </div>

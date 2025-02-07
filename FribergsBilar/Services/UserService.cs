@@ -59,9 +59,18 @@ namespace FribergsBilar.Services
             userRepository.Update(user);
         }
 
-        public void DeleteUser(User user)
+        public bool DeleteUser(User user)
         {
-            userRepository.Delete(user);
+            var hasBookings = bookingRepository.GetUserBookings(user.UserId);
+            if(!hasBookings.Any())
+            {
+                userRepository.Delete(user);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

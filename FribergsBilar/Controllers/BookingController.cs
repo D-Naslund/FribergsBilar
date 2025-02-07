@@ -55,39 +55,7 @@ namespace FribergsBilar.Controllers
             {
                 return View();
             }
-        }
-
-        public ActionResult Cars()
-        {
-            ViewData["loggedIn"] = HttpContext.Session.GetString("CurrentEmail");
-            var carsList = carService.GetCarList();
-            return View(carsList);
-        }
-
-        [HttpPost]
-        public ActionResult BookCar(int id)
-        {
-            try
-            {
-                if(ModelState.IsValid)
-                {
-                    HttpContext.Session.SetInt32("BookingInProcess", id);
-                    if (HttpContext.Session.GetInt32("CurrentId") == null)
-                    {
-                        return RedirectToAction("Login", "User");
-                    }
-                    else
-                    {
-                        return RedirectToAction("Date", "Booking");
-                    }
-                }
-                return View();
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        }       
 
         public ActionResult Date()
         {
@@ -109,7 +77,7 @@ namespace FribergsBilar.Controllers
         {
             try
             {
-                if (booking.StartDate != DateTime.MinValue && booking.EndDate != DateTime.MinValue)
+                if (booking.StartDate > DateTime.Now && booking.EndDate > booking.StartDate)
                 {
                     var carId = (int)HttpContext.Session.GetInt32("BookingInProcess");
                     var userId = (int)HttpContext.Session.GetInt32("CurrentId");
@@ -126,7 +94,11 @@ namespace FribergsBilar.Controllers
                     }
                     return RedirectToAction("Error", "Home");
                 }
-                return View();
+                else
+                {
+                    TempData["FailureDateMessage"] = "Ogiltiga datum!\n Vänlig försök igen";
+                    return RedirectToAction("Date");
+                }
             }
             catch
             {

@@ -26,15 +26,23 @@
                 <label asp-for="EndDate" class="control-label">Slut datum:</label>
                 <input asp-for="EndDate" type="date" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div> <br />
+            </div> 
+            <br />
             <div class="form-group">
                 <input type="submit" value="Boka" class="btn btn-primary" />
             </div>
+            <br />
+            @if (TempData["FailureDateMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["FailureDateMessage"]
+                </div>
+            }
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Tillbaka</a>
+    <a asp-action="Cars" asp-controller="Home">Tillbaka</a>
 </div>
 

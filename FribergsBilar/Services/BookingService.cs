@@ -19,9 +19,18 @@ namespace FribergsBilar.Services
             this.carService = carService;
         }
 
-        public IEnumerable<Booking> GetSpecificUserBookings(int id)
+        public IEnumerable<Booking> GetBookingsToProfile(int id)
         {
-            return bookingRepository.GetUserBookings(id);
+            var bookings = bookingRepository.GetUserBookings(id).ToList();
+            foreach (var booking in bookings)
+            {
+                if(booking.EndDate < DateTime.Now && booking.IsCompleted == false)
+                {
+                    booking.IsCompleted = true;
+                    bookingRepository.Update(booking);
+                }
+            }
+            return bookings;
         }
 
         public Booking CreateBooking(DateTime startDate, DateTime endDate, int carId, int userId)
@@ -41,7 +50,5 @@ namespace FribergsBilar.Services
         {
             bookingRepository.Delete(booking);
         }
-
-
     }
 }

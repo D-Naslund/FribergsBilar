@@ -9,7 +9,7 @@ namespace FribergsBilar.Services.Interfaces
         User GetUserById(int userId);
         void AddUser(User user);
         void UpdateUser(User user);
-        void DeleteUser(User user);
+        bool DeleteUser(User user);
         bool CreateUser(RegisterUser registerUser);
 
     }

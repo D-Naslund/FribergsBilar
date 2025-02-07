@@ -25,9 +25,9 @@
             <div class="form-group">
                 <input type="submit" value="Logga in" class="btn btn-primary" />
             </div>
+            <br />
             @if (TempData["AdminFailureLoginMessage"] != null)
-            {
-                
+            {              
                 <div class="alert alert-danger">
                 @TempData["AdminFailureLoginMessage"]
                 </div>

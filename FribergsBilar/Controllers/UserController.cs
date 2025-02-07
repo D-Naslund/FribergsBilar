@@ -18,31 +18,6 @@ namespace FribergsBilar.Controllers
             this.bookingService = bookingService;
         }
 
-        // GET: UserController
-        public ActionResult Profile()
-        {
-            try
-            {
-                if(ModelState.IsValid)
-                {
-                    ViewData["loggedIn"] = HttpContext.Session.GetString("CurrentEmail");
-                    if (HttpContext.Session.GetInt32("CurrentId") != null)
-                    {
-                        int currentUser = (int)HttpContext.Session.GetInt32("CurrentId");
-                        var user = bookingService.GetSpecificUserBookings(currentUser);
-                        return View(user);
-                    }
-                    return RedirectToAction("Index", "Home");
-                }
-                return RedirectToAction("Index", "Home");
-            }
-            catch
-            {
-                return View();
-            }
-            
-        }
-
         [AdminAuthorize]
         public ActionResult Create()
         {
@@ -110,8 +85,17 @@ namespace FribergsBilar.Controllers
         {
             try
             {
-                userService.DeleteUser(user);
-                return RedirectToAction("Users", "Admin");
+                var userDeleted =  userService.DeleteUser(user);
+                if(userDeleted == true)
+                {
+                    return RedirectToAction("Users", "Admin");
+                }
+                else
+                {
+                    TempData["UserDeleteFail"] = "Användaren har bokningar och kan inte bli bort tagen!";
+                    return RedirectToAction("Delete");
+                }
+                
             }
             catch
             {
@@ -206,6 +190,30 @@ namespace FribergsBilar.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Profile()
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ViewData["loggedIn"] = HttpContext.Session.GetString("CurrentEmail");
+                    if (HttpContext.Session.GetInt32("CurrentId") != null)
+                    {
+                        int currentUser = (int)HttpContext.Session.GetInt32("CurrentId");
+                        var userBookings = bookingService.GetBookingsToProfile(currentUser);
+                        return View(userBookings);
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                return View();
+            }
+
         }
     }
 }

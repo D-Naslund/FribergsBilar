@@ -18,6 +18,8 @@ namespace FribergsBilar.Controllers
         // GET: AdminController
         public ActionResult Index()
         {
+            HttpContext.Session.Clear();
+            HttpContext.Session.SetString("isAdmin", "False");
             return View();
         }
 
@@ -26,7 +28,6 @@ namespace FribergsBilar.Controllers
         {
             try
             {
-                HttpContext.Session.Clear();
                 if (ModelState.IsValid)
                 {
                     var currentAdmin = await adminService.LoginAdminAsync(admin);

@@ -8,7 +8,6 @@ namespace FribergsBilar.Services.Interfaces
         Booking CreateBooking(DateTime start, DateTime end, int carId, int userId);
         Booking GetBookingById(int id);
         void DeleteBooking(Booking booking);
-        IEnumerable<Booking> GetSpecificUserBookings(int id);
-
+        IEnumerable<Booking> GetBookingsToProfile(int id);
     }
 }

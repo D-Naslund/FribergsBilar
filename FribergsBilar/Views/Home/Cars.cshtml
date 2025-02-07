@@ -49,7 +49,7 @@
                             @Html.DisplayFor(modelItem => car.Price) kr / Dag 
                         </td>
                         <td>
-                            <form asp-action="BookCar" asp-controller="Booking" method="post">
+                            <form asp-action="Cars" asp-controller="Home" method="post">
                                 <input type="hidden" name="id" value="@car.CarId" />
                                 <button type="submit" class="btn btn-primary">Boka</button>
                             </form>
